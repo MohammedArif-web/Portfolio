@@ -33,6 +33,9 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <!--ajax script-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -44,7 +47,7 @@
       <h1><a href="index.html">Mohammed Arif</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <a href="index.html" class="mr-auto"><img src="assets/img/logo" alt="" class="img-fluid"></a>
-      <h2>I'm a passionate <span>Web-designer</span></h2>
+      <h2>I'm a passionate <span>Website designer</span> from New York</h2>
 
       <nav id="navbar" class="navbar">
         <ul>
@@ -581,28 +584,34 @@
         </div>
       </div>
 
-      <form  method="post" role="form" id="submit-form" class="php-email-form mt-4">
-        <div class="row">
-          <div class="col-md-6 form-group">
-            <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+      <div class="col-lg-7 col-md-7 mt-5 mt-lg-0 d-flex align-items-stretch " style="padding-top: 30px; width: 800px;" >
+        <form id="submit-form" action="" method="post"  class="php-email-form">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="name">Your Name</label>
+              <input type="text" name="name" class="form-control" id="name">
+              <em><span style="color: red; font-size: 13px;" class="err-form" id="name-err-msg"></span></em>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="name">Your Email</label>
+              <input type="text" class="form-control" name="email" id="email">
+              <em><span style="color: red; font-size: 13px;" class="err-form" id="email-err-msg"></span></em>
+            </div>
           </div>
-          <div class="col-md-6 form-group mt-3 mt-md-0">
-            <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+          <div class="form-group">
+            <label for="name">Subject</label>
+            <input type="text" class="form-control" name="subject" id="subject">
+            <em><span style="color: red; font-size: 13px;" class="err-form" id="sub-err-msg"></span></em>
           </div>
-        </div>
-        <div class="form-group mt-3">
-          <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-        </div>
-        <div class="form-group mt-3">
-          <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-        </div>
-        <div class="my-3">
-          <div class="loading">Loading</div>
-          <div class="error-message"></div>
-          <div class="sent-message">Your message has been sent. Thank you!</div>
-        </div>
-        <div class="text-center"><button type="submit">Send Message</button></div>
-      </form>
+          <div class="form-group">
+            <label for="name">Message</label>
+            <textarea class="form-control" name="message" rows="10" id="msg"></textarea>
+            <em><span style="color: red; font-size: 13px;" class="err-form" id="msg-err-msg"></span></em>
+          </div>
+
+          <div class="text-center"><button type="submit">Send Message</button></div>
+        </form>
+      </div>
 
     </div>
   </section><!-- End Contact Section -->
@@ -626,23 +635,143 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  
+  <script>
+
+    $(document).ready(function(){
+      $("#name").focusout(function(){
+        check_name()
+      })
+      
+      $("#email").focusout(function(){
+        check_mail()
+      })
+
+      $("#subject").focusout(function(){
+        check_sub()
+      })
+
+      $("#msg").focusout(function(){
+        check_msg()
+      })
+
+    });
+
+    let name_err = false;
+    let email_err = false;
+    let sub_err = false;
+    let msg_err = false;
+
+    function check_name() {
+      let namevalue = $("#name").val()
+      let pattern = /^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$/;
+
+      if(namevalue == "") {
+        $("#name-err-msg").html("Name is mandatory !")
+        $("#name").css('border','1px solid red')
+      }
+      else if(namevalue.length<3 || namevalue.length>20) {
+        name_err = true
+        $("#name-err-msg").html("Please enter valid name") 
+        $("#name").css('border','1px solid red')
+      }
+      else if(namevalue.match(pattern)) {
+        name_err = true
+        $("#name-err-msg").html("")
+        $("#name").css('border','1px solid #18d26e')
+      }
+      else {
+        $("#name-err-msg").html("Invalid name")
+        $("#name").css('border','1px solid red')
+      }
+    }
+
+    function check_mail(){
+      let emailvalue = $("#email").val()
+      let pattern = /^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/
+      if (emailvalue == "") {
+        $("#email-err-msg").html("email is mandatory !")
+        $("#email").css('border','1px solid red')
+      }
+
+      else if (emailvalue.match(pattern)) {
+        email_err = true
+        $("#email-err-msg").html("")
+        $("#email").css('border','1px solid #18d26e')
+      }
+
+      else {
+        $("#email-err-msg").html("invalid email")
+        $("#email").css('border','1px solid red')
+      }
+    }
+
+    function check_sub(){
+      let subvalue = $("#subject").val()
+      let pattern = /^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$/;
+
+      if(subvalue == "") {
+        $("#sub-err-msg").html("Subject is mandatory !")
+        $("#subject").css('border','1px solid red')
+      }
+      else if(subvalue.match(pattern)) {
+        name_err = true
+        $("#sub-err-msg").html("")
+        $("#subject").css('border','1px solid #18d26e')
+      }
+    }
+
+    function check_msg() {
+      let msgvalue = $("#msg").val()
+      let pattern = /^[-a-zA-Z-()]+(\s+[-a-zA-Z-()]+)*$/;
+
+      if(msgvalue == "") {
+        $("#msg-err-msg").html("Message is mandatory !")
+        $("#msg").css('border','1px solid red')
+      }
+      else if(msgvalue.match(pattern)) {
+        name_err = true
+        $("#msg-err-msg").html("")
+        $("#msg").css('border','1px solid #18d26e')
+      }
+    }
+
+
+  </script>
+
+
+  <!-- form submission -->
   <script>
     $("#submit-form").submit((e)=>{
         e.preventDefault()
+
+        let name = $("#name").val()
+        let email = $("#email").val()
+        let sub = $("#subject").val()
+        let msg = $("#msg").val()
+        
+        if (name == "" || email == "" || sub == "" || msg == "")
+        {
+          alert("Please fill the form correctly !!!")
+        }
+
+        else {
+
         $.ajax({
-            url:"https://script.google.com/macros/s/AKfycbzB8pvbZkPWuT0syrCYjt24ufuhIQZGbVmmmhe7jhEwqubbxHz4POI-rJ0as1yDH7qd/exec",
-            data:$("#submit-form").serialize(),
+            url:"https://script.google.com/macros/s/AKfycbwn9U-W7iLcOZ1xp9XvwUkyIJs-y4BqPUVALB2af4hta42ecUKhfRTZvAX1V1Fgdb3R/exec",
+            data:$("#submit-form").serializeec(),
             method:"post",
             success:function (response){
-                alert("Your Message submitted successfully.")
+                alert("Form submitted successfully")
                 window.location.reload()
                 //window.location.href="https://google.com"
             },
             error:function (err){
-                alert("Something Went Wrong Couldn't Submit Your Message.")
+                alert("Something Error")
 
             }
         })
+      }
     })
 </script>
 
